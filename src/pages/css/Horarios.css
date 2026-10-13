@@ -1,0 +1,96 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.horarios-container {
+  min-height: 100vh;
+  background: #111;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.horarios-card {
+  width: 100%;
+  max-width: 800px;
+  background: #222;
+  padding: 30px;
+  border-radius: 16px;
+}
+
+.horarios-card h1 {
+  text-align: center;
+  color: #d4af37;
+  margin-bottom: 10px;
+}
+
+.horarios-card p {
+  text-align: center;
+  color: #ccc;
+  margin-bottom: 30px;
+}
+
+.horarios-card strong {
+  color: #d4af37;
+}
+
+.horarios-grid {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(120px, 1fr)
+  );
+
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.horario-btn {
+  padding: 15px;
+
+  border: none;
+  border-radius: 8px;
+
+  background: #333;
+  color: rgb(82, 16, 16);
+
+  cursor: pointer;
+
+  transition: 0.3s;
+}
+
+.horario-btn:hover {
+  background: #444;
+}
+
+.horario-btn.selecionado {
+  background: #70d437;  /* PENSAR NUMA COR PARA */
+  color: #111;
+  font-weight: bold;
+}
+
+.btn-confirmar {
+  width: 100%;
+
+  padding: 15px;
+
+  border: none;
+  border-radius: 8px;
+
+  background: #d4af37;
+  color: #111;
+
+  font-size: 16px;
+  font-weight: bold;
+
+  cursor: pointer;
+
+  transition: 0.3s;
+}
+
+.btn-confirmar:hover {
+  background: #f0c54d;
+}

@@ -1,7 +1,7 @@
 import "./css/Servicos.css";
 import { useNavigate } from "react-router-dom";
 import ServicoAccordion from "../components/ServicoAccordion";
-import {Navbar} from "../components/NavbarSing"
+import NavbarIndex from "../components/NavbarSing"
 
 
 export default function Servicos() {
@@ -46,7 +46,7 @@ export default function Servicos() {
 
   return (
      <>
-      <Navbar isLoggedIn={false} />
+      <NavbarIndex isLoggedIn={false} />
     
     <div className="servicos-container">
       <div className="servicos-header">

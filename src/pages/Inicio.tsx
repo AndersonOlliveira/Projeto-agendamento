@@ -46,7 +46,7 @@ export default function Servicos() {
 
   return (
      <>
-      <NavbarIndex isLoggedIn={false} />
+      <NavbarIndex isLoggedIn={false} onLogout={false} />
     
     <div className="servicos-container">
       <div className="servicos-header">

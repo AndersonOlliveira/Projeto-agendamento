@@ -66,6 +66,20 @@ body {
   margin: 0;
 }
 
+
+/* PARA TRAMENTO DO NAV BAR */
+.bg-body-tertiary{
+  background-color : black !important;
+}
+button.navbar-toggler.collapsed{
+  background-color: #f0c54d70;
+}
+button.navbar-toggler.collapsed:hover{
+  background-color: #f0c54d;
+}
+button.navbar-toggler.collapsed .show{
+  background-color: #f0c54d;
+}
 h1,
 h2 {
   font-family: var(--heading);

@@ -1,9 +1,10 @@
 import { useState } from "react";
-import Accordion from "react-bootstrap/Accordion";
 import "../pages/css/Horarios.css";
+import Accordion from "react-bootstrap/Accordion";
+import {horariosDisponiveis} from "./ListHorarios";
+import { criarAgendamento } from "../services/agendamentos";
 
 // import { useLocation } from "react-router-dom";
-import {horariosDisponiveis} from "./ListHorarios";
 
 interface Servico {
   id: number;
@@ -18,7 +19,9 @@ type ServicoAccordionProps = {
 export default function ServicoAccordion({ servico }: ServicoAccordionProps) {
   const [horarioSelecionado, setHorarioSelecionado] = useState("");
 
-  const confirmarAgendamento = () => {
+ 
+
+  const confirmarAgendamento = async () => {
     if (!horarioSelecionado) {
       alert("Selecione um horário.");
       return;
@@ -28,10 +31,43 @@ export default function ServicoAccordion({ servico }: ServicoAccordionProps) {
       `Agendamento confirmado para ${servico.nome} às ${horarioSelecionado}`
     );
 
+    console.warn('TENHO O CLICK AQUI???');
+    
+    
     console.log({
       servico,
       horarioSelecionado,
     });
+
+    try{ 
+
+     const dados = {
+      servico_id: servico.id,
+      horario: horarioSelecionado,
+    };
+
+    console.log("Dados enviados:", dados);
+
+    const resultado = await criarAgendamento(dados);
+
+    if (resultado.success) {
+      alert(
+        `Agendamento confirmado para ${servico.nome} às ${horarioSelecionado}`
+      );
+
+      console.log("Resposta da API:", resultado);
+    } else {
+      alert(resultado.message);
+    }
+  } catch (erro) {
+    console.error("Erro ao realizar agendamento:", erro);
+
+    alert(
+      erro instanceof Error
+        ? erro.message
+        : "Não foi possível realizar o agendamento."
+    );
+  }
   };
 
 

@@ -94,3 +94,6 @@
 .btn-confirmar:hover {
   background: #f0c54d;
 }
+.accordion-item{
+  border: none!important;
+}

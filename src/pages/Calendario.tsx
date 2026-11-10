@@ -3,28 +3,10 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { l_proff } from "../services/profissionais";
 import type { Profissionais } from "../type/profissionais";
-// export default function Calendario() {
-//   const navigate = useNavigate();
-//   const [dataSelecionada, setDataSelecionada] = useState("");
 
-//   console.log('SAINDO NA TELA DE CALENDARIO? ');
+import { l_disponibilidade } from "../services/disponbilidadeService";
+import type { HorarioDisponivel } from "../type/disponibilidades";
 
-//   const handleContinuar = () => {
-//     if (!dataSelecionada) {
-//       alert("Selecione uma data");
-//       return;
-//     }
-
-//     interface DadosNavegacao {
-//     servicoId: number;
-//     servicoNome: string;
-// }
-
-//     console.log("Data:", dataSelecionada);
-
-//     // futuramente:
-//     // navigate("/horarios");
-//   };
 
 interface DadosNavegacao {
     servicoId: number;
@@ -37,11 +19,13 @@ interface DadosNavegacao {
     const [proff, setProff] = useState<Profissionais[]>([]);
     const [carregando, setCarregando] = useState(true);
     const [erro, setErro] = useState("");
+    
+    const [hrDisponivel, setProffHorDisponivel] = useState<HorarioDisponivel[]>([]);
+    // const [carregando, setCarregando] = useState(true);
+    // const [erro, setErro] = useState("");
     const [profissionalSelecionado, setProfissionalSelecionado] = useState<number | null>(null);
-
-
-   
-
+    const [horarioSelecionado, setHorarioSelecionado] = useState<string | null>(null);
+    
     const dados = location.state as DadosNavegacao | null;
 
     const hoje = new Date();
@@ -52,6 +36,7 @@ interface DadosNavegacao {
     ].join("-");
 
     const [dataSelecionada, setDataSelecionada] = useState(dataHoje);
+
     const servicoId = dados?.servicoId;
     const servicoNome = dados?.servicoNome;
 
@@ -99,16 +84,97 @@ interface DadosNavegacao {
         );
     }
     
-    console.log(profissionalSelecionado,dataSelecionada,servicoId)
-    if (carregando) return <p>Carregando serviços...</p>;
-     if (erro) return <p>{erro}</p>;
-
-   
     const handleDataChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setDataSelecionada(e.target.value);
     };
-
     
+    console.log(profissionalSelecionado,dataSelecionada,servicoId);
+
+  
+   useEffect(() => {
+    if (!servicoId || !profissionalSelecionado || !dataSelecionada) {
+        setProffHorDisponivel([]);
+        return;
+    }
+
+    setCarregando(true);
+    setErro("");
+    setProffHorDisponivel([]);
+
+    l_disponibilidade(servicoId, profissionalSelecionado, dataSelecionada)
+        .then((result) => {
+            if (result.status) {
+                setProffHorDisponivel(result.dados);
+            } else {
+                setProffHorDisponivel([]);
+                setErro("Nenhum horário disponível para este profissional.");
+            }
+        })
+        .catch((error) => {
+            setProffHorDisponivel([]);
+            setErro(error.message || "Erro ao carregar disponibilidade.");
+        })
+        .finally(() => {
+            setCarregando(false);
+            setHorarioSelecionado(null);
+        });
+
+}, [servicoId, profissionalSelecionado, dataSelecionada]);
+    
+    if (carregando) return <p>Carregando serviços...</p>;
+    if (erro) return <p>{erro}</p>;
+ 
+    // console.warn('HORARIOS' ,hrDisponivel);
+    // console.warn('horarioSelecionado' ,horarioSelecionado);
+ 
+    const profissionalSelecionadoNome =
+        proff.find((profissional) => profissional.id === profissionalSelecionado)?.nome ?? "";
+
+    const podeConfirmarHorario =
+        Boolean(servicoId) &&
+        Boolean(profissionalSelecionado) &&
+        Boolean(dataSelecionada) &&
+        Boolean(horarioSelecionado);
+
+    const confirmarEAvancar = () => {
+    if (!horarioSelecionado) return;
+
+    console.log(horarioSelecionado);
+    console.log(profissionalSelecionado);
+    console.log(profissionalSelecionadoNome);
+    console.log(dataSelecionada);
+    console.log(horarioSelecionado);
+    
+    navigate("/preenchimento-dados", { 
+         state: {
+                servicoId,
+                servicoNome,
+                profissionalId: profissionalSelecionado,
+                profissionalNome: profissionalSelecionadoNome,
+                data: dataSelecionada,
+                horario: horarioSelecionado,
+            },
+         });
+};
+    const confirmarHorario = () => {
+        if (!podeConfirmarHorario) return;
+
+        navigate("/agendamento", {
+            state: {
+                servicoId,
+                servicoNome,
+                profissionalId: profissionalSelecionado,
+                profissionalNome: profissionalSelecionadoNome,
+                data: dataSelecionada,
+                horario: horarioSelecionado,
+            },
+        });
+    };
+
+    const selecionarHorario = () => {
+        if (!horarioSelecionado) return;
+        confirmarHorario();
+    };
 
     return (
         <div className="calendario-container">
@@ -135,41 +201,75 @@ interface DadosNavegacao {
                 </div>
 
                <div className="profissionais-container">
+                 <h3>Escolha seu profissional</h3>
 
-    <h3>Escolha seu profissional</h3>
+                        {proff.map((profissional) => (
 
-    {proff.map((profissional) => (
+                            <div
+                                key={profissional.id}
+                                className={
+                                    profissionalSelecionado === profissional.id
+                                        ? "profissional-item selecionado"
+                                        : "profissional-item"
+                                }
+                                onClick={() => {
+                                    console.log("Profissional selecionado:", profissional.id);
+                                    setProfissionalSelecionado(profissional.id);
+                                }}>
+                                <span style={{ color: "blue" }}>{profissional.nome}</span>
 
-        <div
-            key={profissional.id}
-            className={
-                profissionalSelecionado === profissional.id
-                    ? "profissional-item selecionado"
-                    : "profissional-item"
-            }
-            onClick={() => {
-                console.log("Profissional selecionado:", profissional.id);
-                setProfissionalSelecionado(profissional.id);
-            }}
-        >
-            <span style={{ color: "blue" }}>{profissional.nome}</span>
+                                {profissionalSelecionado === profissional.id && (
+                                    <span> ✓ Selecionado</span>
+                                )}
+                                </div>
 
-            {profissionalSelecionado === profissional.id && (
-                <span> ✓ Selecionado</span>
-            )}
-              </div>
-
-    ))}
-
-</div>
-
-                <div className="horarios-container">
-                    <h3>Horários disponíveis</h3>
-
-                    {/* Aqui vamos carregar os horários pela API */}
+                        ))}
                 </div>
 
-            </div>
-        </div>
+               <div className="horarios-container">
+                    <h3>Horários disponíveis</h3>
+                     <div>
+                        {hrDisponivel.length > 0 ? (
+                            <div className="lista-horarios">
+                                {hrDisponivel.map((horario) => {
+
+                                    const isSelecionado =
+                                        horarioSelecionado?.inicio === horario.inicio;
+
+                                    return (
+                                        <button
+                                            key={horario.inicio}
+                                            type="button"
+                                            className={
+                                                isSelecionado
+                                                    ? "horario-item selecionado"
+                                                    : "horario-item"
+                                            }
+                                            onClick={() => setHorarioSelecionado(horario)}
+                                        >
+                                            {horario.hora_inicio}
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                        ) : (
+                            <p>Nenhum horário disponível para esta data.</p>
+                        )}
+
+                        <div className="acao-horario">
+                            <button
+                                type="button"
+                                className="btn-confirmar-horario"
+                                onClick={confirmarEAvancar}
+                             
+                                disabled={!horarioSelecionado} 
+                            >
+                                Confirmar e seguir
+                            </button>
+                        </div>
+                    </div>
+                    </div>
+                    </div>
+                    </div>
     );
 }

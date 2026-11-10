@@ -107,3 +107,28 @@
     background-color: #fff8e1;
     color: #222;
 }
+
+
+.lista-horarios {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.horario-item {
+    padding: 10px 18px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background: #fff;
+    cursor: pointer;
+}
+
+.horario-item:hover {
+    border-color: #007bff;
+}
+
+.horario-item.selecionado {
+    background: #007bff;
+    color: #fff;
+    border-color: #007bff;
+}

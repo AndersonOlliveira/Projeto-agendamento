@@ -6,6 +6,7 @@ import Cadastros from "../pages/Cadastros";
 import Servicos from "../pages/Servicos";
 import Calendario from "../pages/Calendario";
 import Horarios from "../pages/Horarios";
+import Clientes from "../pages/DadosCliente";
 import Inicio from "../pages/Inicio";
 
 export default function AppRoutes() {
@@ -20,6 +21,7 @@ export default function AppRoutes() {
         <Route path="/servicos" element={<Servicos />} />
         <Route path="/agendamento" element={<Calendario />}/>
         <Route path="/horarios" element={<Horarios />}/>
+        <Route path="/preenchimento-dados" element={<Clientes />}/>
       </Routes>
     </BrowserRouter>
   );

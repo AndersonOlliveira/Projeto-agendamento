@@ -88,3 +88,22 @@
 .calendario-card button:hover {
   background: #f0c54d;
 }
+
+.profissional-item {
+    padding: 15px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.profissional-item:hover {
+    border-color: #c9a227;
+}
+
+.profissional-item.selecionado {
+    border: 2px solid #c9a227;
+    background-color: #fff8e1;
+    color: #222;
+}

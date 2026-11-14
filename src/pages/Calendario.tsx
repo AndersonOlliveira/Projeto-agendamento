@@ -88,7 +88,7 @@ interface DadosNavegacao {
         setDataSelecionada(e.target.value);
     };
     
-    console.log(profissionalSelecionado,dataSelecionada,servicoId);
+    console.log( 'lISTA COM OS DADOS ', profissionalSelecionado,dataSelecionada,servicoId);
 
   
    useEffect(() => {
@@ -101,7 +101,7 @@ interface DadosNavegacao {
     setErro("");
     setProffHorDisponivel([]);
 
-    l_disponibilidade(servicoId, profissionalSelecionado, dataSelecionada)
+    l_disponibilidade( profissionalSelecionado,servicoId, dataSelecionada)
         .then((result) => {
             if (result.status) {
                 setProffHorDisponivel(result.dados);
@@ -119,7 +119,7 @@ interface DadosNavegacao {
             setHorarioSelecionado(null);
         });
 
-}, [servicoId, profissionalSelecionado, dataSelecionada]);
+}, [profissionalSelecionado, servicoId,  dataSelecionada]);
     
     if (carregando) return <p>Carregando serviços...</p>;
     if (erro) return <p>{erro}</p>;
@@ -137,8 +137,13 @@ interface DadosNavegacao {
         Boolean(horarioSelecionado);
 
     const confirmarEAvancar = () => {
-    if (!horarioSelecionado) return;
+    
+        if (!horarioSelecionado){
+            alert('SEM HORARIO SELECIONADO'); return;
 
+        }
+            
+            
     console.log(horarioSelecionado);
     console.log(profissionalSelecionado);
     console.log(profissionalSelecionadoNome);
@@ -266,10 +271,16 @@ interface DadosNavegacao {
                             >
                                 Confirmar e seguir
                             </button>
+                              <button
+                        type="button"
+                        className="btn-voltar"
+                        onClick={() => navigate("/servicos", {  })}>
+                        Voltar
+                         </button>
                         </div>
                     </div>
-                    </div>
-                    </div>
-                    </div>
+                 </div>
+                </div>
+            </div>
     );
 }

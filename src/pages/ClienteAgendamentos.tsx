@@ -17,6 +17,9 @@ interface Agendamento {
     servico_nome: string;
     duracao_minutos: number;
     profissional_nome: string;
+
+    profissional_id: number;
+    servico_id: number;
 }
 
 interface RespostaAPI {
@@ -26,6 +29,21 @@ interface RespostaAPI {
     dados?: Agendamento;
 }
 
+
+interface HorarioDisponivel {
+    inicio: string;
+    fim: string;
+    hora_inicio: string;
+    hora_fim: string;
+}
+
+interface RespostaDisponibilidade {
+    status: boolean;
+    dados: HorarioDisponivel[];
+    msg?: string;
+}
+
+
 export default function Mgendamento() {
 
     const { token } = useParams<{ token: string }>();
@@ -34,13 +52,31 @@ export default function Mgendamento() {
         useState<Agendamento | null>(null);
 
     const [carregando, setCarregando] = useState(true);
+    const [cancelando , setCancelando] = useState(false);
+    const [mensagem, setMensagem] = useState("")
+
+    const [mostrarReagendamento, setMostrarReagendamento] = useState(false);
+
+    const [dataNova, setDataNova] = useState("");
+
+    const [horarios, setHorarios] = useState<HorarioDisponivel[]>([]);
+
+    const [horarioSelecionado, setHorarioSelecionado] =
+        useState<HorarioDisponivel | null>(null);
+
+    const [carregandoHorarios, setCarregandoHorarios] = useState(false);
+
+    const [reagendando, setReagendando] = useState(false);
+
+    const [erroReagendamento, setErroReagendamento] = useState("");
+
+
+    console.warn('DADOS DO AGEDAMENTO ' ,agendamento);
     const [erro, setErro] = useState("");
 
     useEffect(() => {
 
         if (!token) {
-            setErro("Link de acesso inválido.");
-            setCarregando(false);
             return;
         }
 
@@ -77,6 +113,125 @@ export default function Mgendamento() {
 
     }, [token]);
 
+    useEffect(() => {
+
+    if (!mostrarReagendamento || !dataNova || !agendamento) {
+        return;
+    }
+
+    const consultarHorarios = async () => {
+
+        try {
+
+            setCarregandoHorarios(true);
+            setErroReagendamento("");
+            setHorarios([]);
+            setHorarioSelecionado(null);
+
+            const parametros = new URLSearchParams({
+                profissional_id: String(agendamento.profissional_id),
+                servico_id: String(agendamento.servico_id),
+                data: dataNova
+            });
+
+            const resposta = await fetch(
+                `http://localhost:9890/api/disponibilidade?${parametros.toString()}`
+            );
+
+            const resultado: RespostaDisponibilidade =
+                await resposta.json();
+
+            if (!resposta.ok || !resultado.status) {
+                setErroReagendamento(
+                    resultado.msg || "Não foi possível consultar os horários."
+                );
+                return;
+            }
+
+            setHorarios(resultado.dados || []);
+
+        } catch (error) {
+
+            setErroReagendamento("Erro ao consultar horários disponíveis.");
+
+        } finally {
+
+            setCarregandoHorarios(false);
+        }
+    };
+
+    consultarHorarios();
+
+}, [mostrarReagendamento, dataNova, agendamento]);
+
+const confirmarReagendamento = async () => {
+
+    if (!token || !horarioSelecionado) {
+        return;
+    }
+
+    if (!window.confirm("Deseja confirmar o novo horário?")) {
+        return;
+    }
+
+    try {
+
+        setReagendando(true);
+        setErroReagendamento("");
+        setMensagem("");
+
+        const resposta = await fetch(
+            "http://localhost:9890/api/agendamentos/reagendar",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    token: token,
+                    novo_inicio: horarioSelecionado.inicio
+                })
+            }
+        );
+
+        const resultado = await resposta.json();
+
+        if (!resposta.ok || !resultado.sucesso) {
+
+            setErroReagendamento(
+                resultado.erro || "Não foi possível reagendar."
+            );
+
+            return;
+        }
+
+        setAgendamento(prev => {
+
+            if (!prev) return null;
+
+            return {
+                ...prev,
+                inicio: horarioSelecionado.inicio,
+                fim: horarioSelecionado.fim
+            };
+        });
+
+        setMostrarReagendamento(false);
+        setHorarios([]);
+        setHorarioSelecionado(null);
+
+        setMensagem("Agendamento reagendado com sucesso!");
+
+    } catch (error) {
+
+        setErroReagendamento("Erro ao comunicar com o servidor.");
+
+    } finally {
+
+        setReagendando(false);
+    }
+};
+
     const formatarData = (data: string) => {
         return new Date(data).toLocaleDateString("pt-BR", {
             day: "2-digit",
@@ -98,6 +253,81 @@ export default function Mgendamento() {
             currency: "BRL"
         });
     };
+
+
+    const cancelarAgendamento = async () => {
+
+    if (!token || !agendamento) {
+        return;
+    }
+
+    const confirmar = window.confirm(
+        "Deseja realmente cancelar este agendamento?"
+    );
+
+    if (!confirmar) {
+        return;
+    }
+
+    try {
+
+        setCancelando(true);
+        setMensagem("");
+        setErro("");
+
+        const resposta = await fetch(
+            "http://localhost:9890/api/agendamentos/cancelar",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    token: token
+                })
+            }
+        );
+
+        const resultado = await resposta.json();
+
+        if (!resposta.ok || !resultado.sucesso) {
+            setErro(
+                resultado.erro || "Não foi possível cancelar o agendamento."
+            );
+            return;
+        }
+
+        setAgendamento(prev => {
+            if (!prev) return null;
+
+            return {
+                ...prev,
+                status: "cancelado"
+            };
+        });
+
+        setMensagem("Agendamento cancelado com sucesso!");
+
+    } catch (error) {
+
+        setErro("Erro ao comunicar com o servidor.");
+
+    } finally {
+
+        setCancelando(false);
+    }
+};
+
+    if (!token) {
+        return (
+            <div className="meu-agendamento-container">
+                <div className="meu-agendamento-card">
+                    <h2>Agendamento não encontrado</h2>
+                    <p>Link de acesso inválido.</p>
+                </div>
+            </div>
+        );
+    }
 
     if (carregando) {
         return (
@@ -173,6 +403,122 @@ export default function Mgendamento() {
                     </div>
 
                 </div>
+                {["pendente", "confirmado"].includes(
+                            agendamento.status.toLowerCase()
+                        ) && (
+
+                            <div className="acoes-agendamento">
+
+                                <button
+                                    type="button"
+                                    className="btn-cancelar-agendamento"
+                                    onClick={cancelarAgendamento}
+                                    disabled={cancelando}
+                                >
+                                    {cancelando
+                                        ? "Cancelando..."
+                                        : "Cancelar agendamento"}
+                                </button>
+                                <br></br>
+                               <button
+                                    type="button"
+                                    className="btn-reagendar-agendamento"
+                                    onClick={() => {
+                                        setMostrarReagendamento(!mostrarReagendamento);
+                                        setErroReagendamento("");
+                                        setDataNova("");
+                                        setHorarios([]);
+                                        setHorarioSelecionado(null);
+                                    }}
+                                >
+                                    Reagendar
+                                </button>
+
+                            </div>
+
+                        )}
+                        
+                        {mostrarReagendamento && (
+
+                        <div className="reagendamento-container">
+
+                            <h2>Escolha uma nova data</h2>
+
+                            <input
+                                type="date"
+                                value={dataNova}
+                                min={new Date().toLocaleDateString("en-CA")}
+                                onChange={e => setDataNova(e.target.value)}
+                            />
+
+                            {carregandoHorarios && (
+                                <p>Consultando horários disponíveis...</p>
+                            )}
+
+                            {!carregandoHorarios && horarios.length > 0 && (
+
+                                <div className="lista-horarios">
+
+                                    <h3>Horários disponíveis</h3>
+
+                                    {horarios.map((horario, index) => (
+
+                                        <button
+                                            key={index}
+                                            type="button"
+                                             className={
+                                                    horarioSelecionado?.inicio === horario.inicio
+                                                        ? "btn-horario horario-selecionado"
+                                                        : "btn-horario"
+                                                }
+                                            onClick={() => setHorarioSelecionado(horario)}
+                                        >
+                                            {horario.hora_inicio} até {horario.hora_fim}
+                                        </button>
+
+                                    ))}
+
+                                </div>
+                            )}
+
+                        {!carregandoHorarios && dataNova && horarios.length === 0 && !erroReagendamento && (
+                            <p>Não existem horários disponíveis para esta data.</p>
+                        )}
+
+                        {erroReagendamento && (
+                            <p className="mensagem-erro">
+                                {erroReagendamento}
+                            </p>
+                        )}
+
+                        {horarioSelecionado && (
+
+                            <button
+                                type="button"
+                                onClick={confirmarReagendamento}
+                                disabled={reagendando}
+                            >
+                                {reagendando
+                                    ? "Reagendando..."
+                                    : "Confirmar novo horário"}
+                            </button>
+
+                        )}
+
+                    </div>
+                )}
+
+                        {mensagem && (
+                            <p className="mensagem-sucesso">
+                                {mensagem}
+                            </p>
+                        )}
+
+                        {erro && (
+                            <p className="mensagem-erro">
+                                {erro}
+                            </p>
+                        )}
 
                 <hr />
 

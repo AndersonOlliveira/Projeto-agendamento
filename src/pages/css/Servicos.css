@@ -1,91 +1,179 @@
+/* RESET */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+/* CONTAINER */
 .servicos-container {
-  min-height: 110vh;
-  background: #111;
-  padding: 40px 20px;
+  min-height: 100vh;
+  padding: 80px 20px;
+  background: linear-gradient(
+    135deg,
+    #0f0f0f 0%,
+    #181818 50%,
+    #101010 100%
+  );
 }
 
+/* HEADER */
 .servicos-header {
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 60px;
 }
 
 .servicos-header h1 {
   color: #d4af37;
-  margin-bottom: 10px;
+  font-size: 2.8rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+  letter-spacing: 1px;
 }
 
 .servicos-header p {
-  color: #ccc;
+  color: #bdbdbd;
+  font-size: 1.1rem;
+  max-width: 650px;
+  margin: 0 auto;
+  line-height: 1.6;
 }
 
+/* GRID */
 .servicos-grid {
-  max-width: 1200px;
-  margin: auto;
+  max-width: 1280px;
+  margin: 0 auto;
 
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-
-  gap: 25px;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
 }
 
+/* CARD */
 .servico-card {
-  background: #222;
+  background: rgba(35, 35, 35, 0.9);
 
-  border-radius: 16px;
+  backdrop-filter: blur(10px);
 
-  padding: 25px;
+  border: 1px solid rgba(212, 175, 55, 0.15);
 
-  transition: .3s;
+  border-radius: 18px;
 
-  border: 1px solid transparent;
+  padding: 30px;
+
+  transition: all 0.35s ease;
+
+  box-shadow:
+    0 10px 30px rgba(0,0,0,.25),
+    0 0 0 rgba(212,175,55,0);
+
+  position: relative;
+
+  overflow: hidden;
 }
 
+/* LINHA DOURADA TOPO */
+.servico-card::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+
+  width: 100%;
+  height: 4px;
+
+  background: linear-gradient(
+    90deg,
+    #d4af37,
+    #f5d76e,
+    #d4af37
+  );
+}
+
+/* HOVER */
 .servico-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-8px);
 
-  border: 1px solid #d4af37;
+  border-color: rgba(212, 175, 55, .6);
+
+  box-shadow:
+    0 15px 40px rgba(0,0,0,.35),
+    0 0 25px rgba(212,175,55,.15);
 }
 
+/* TITULO */
 .servico-card h2 {
-  color: white;
-  margin-bottom: 20px;
+  color: #fff;
+  margin-bottom: 24px;
+  font-size: 1.4rem;
+  font-weight: 600;
 }
 
+/* INFORMAÇÕES */
 .servico-info {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 
-  color: #bbb;
+  color: #c0c0c0;
 
-  margin-bottom: 25px;
+  margin-bottom: 30px;
+
+  line-height: 1.6;
 }
 
+.servico-info span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* BOTÃO */
 .servico-card button {
   width: 100%;
 
-  padding: 12px;
+  padding: 14px;
 
   border: none;
-  border-radius: 8px;
 
-  background: #d4af37;
+  border-radius: 10px;
+
+  background: linear-gradient(
+    135deg,
+    #d4af37,
+    #f5d76e
+  );
 
   color: #111;
 
-  font-weight: bold;
+  font-size: 1rem;
+  font-weight: 700;
 
   cursor: pointer;
 
-  transition: .3s;
+  transition: all .3s ease;
 }
 
 .servico-card button:hover {
-  background: #f0c54d;
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 8px 20px rgba(212,175,55,.35);
+
+  filter: brightness(1.08);
+}
+
+.servico-card button:active {
+  transform: scale(.98);
+}
+
+/* RESPONSIVO */
+@media (max-width: 768px) {
+  .servicos-header h1 {
+    font-size: 2.1rem;
+  }
+
+  .servico-card {
+    padding: 25px;
+  }
 }

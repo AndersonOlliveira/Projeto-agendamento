@@ -65,6 +65,115 @@
     margin-top: 30px;
 }
 
+.acoes-agendamento {
+    margin-top: 25px;
+    text-align: center;
+}
+
+.btn-cancelar-agendamento {
+    background: #b52b2b;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.btn-cancelar-agendamento:hover {
+    background: #922020;
+}
+
+.btn-cancelar-agendamento:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+
+.btn-reagendar-agendamento {
+    background: #52b52b;
+    color: white;
+    border: none;
+    margin-top: 10px;
+    padding: 12px 24px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.btn-reagendar-agendamento:hover {
+     background: #52b52b9d
+}
+
+.btn-reagendar-agendamento:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.mensagem-sucesso {
+    color: #28a745;
+    text-align: center;
+    margin-top: 15px;
+}
+
+.mensagem-erro {
+    color: #ff5555;
+    text-align: center;
+    margin-top: 15px;
+}
+
+/* Grade dos horários */
+.lista-horarios {
+    width: 100%;
+}
+
+.lista-horarios > div {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(115px, 1fr));
+    gap: 10px;
+}
+
+.btn-horario {
+    width: 100%;
+    min-height: 42px;
+    padding: 10px 8px;
+    border: 1px solid #aaa;
+    border-radius: 6px;
+    background-color: #383838;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.btn-horario:hover {
+    background-color: #555;
+}
+
+.btn-horario.horario-selecionado {
+    background-color: #dcae28;
+    color: #222;
+    border-color: #dcae28;
+}
+
+.reagendamento-container button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+@media (max-width: 600px) {
+    .reagendamento-container {
+        padding: 12px;
+    }
+
+    .reagendamento-container h2 {
+        font-size: 21px;
+    }
+
+    .acoes-agendamento {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
 @media (max-width: 500px) {
     .meu-agendamento-card {
         padding: 20px;

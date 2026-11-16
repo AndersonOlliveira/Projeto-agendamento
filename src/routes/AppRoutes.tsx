@@ -9,7 +9,9 @@ import Cadastros from "../pages/Cadastros";
 import Calendario from "../pages/Calendario";
 import Clientes from "../pages/DadosCliente";
 import Mgendamento from "../pages/ClienteAgendamentos";
-
+import AdminLogin from "../pages/Ad/AdminLogin";
+import ProtectedAdminRoute from "./ProtectedAdminRoute";
+import AdminUsuarios from "../pages/Ad/AdminUsuarios";
 export default function AppRoutes() {
   return (
     <BrowserRouter>
@@ -24,6 +26,15 @@ export default function AppRoutes() {
         <Route path="/horarios" element={<Horarios />}/>
         <Route path="/preenchimento-dados" element={<Clientes />}/>
         <Route  path="/meu-agendamento/:token" element={<Mgendamento />}/>
+        {/* admim */}
+        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route element={<ProtectedAdminRoute />}>
+         <Route path="/admin/usuarios" element={<div>Gerenciamento de usuários</div>} /></Route>
+         <Route
+    path="/admin/usuarios"
+    element={<AdminUsuarios />}
+/>
+        
       </Routes>
     </BrowserRouter>
   );

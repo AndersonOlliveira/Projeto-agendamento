@@ -7,26 +7,27 @@ export async function apiPost<T>(
 ): Promise<T> {
 
   console.log('DADOS VINDO AQUI ???',dados);
+    const resposta = await fetch(`${API_URL}${endpoint}`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+        },
+        body: JSON.stringify(dados),
+    });
 
+    const resultado = await resposta.json();
 
-  const resposta = await fetch(`${API_URL}${endpoint}`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-    body: JSON.stringify(dados),
-  });
+    if (!resposta.ok) {
+        throw new Error(
+            resultado.mensagem ||
+            resultado.message ||
+            "Erro ao comunicar com a API."
+        );
+    }
 
-  const resultado = await resposta.json();
-
-  if (!resposta.ok) {
-    throw new Error(
-      resultado.message || "Erro ao comunicar com a API."
-    );
-  }
-
-  return resultado as T;
+    return resultado as T;
 }
 
 
@@ -50,12 +51,13 @@ export async function apiGet<T>(
     ? `${API_URL}${endpoint}?${params.toString()}`
     : `${API_URL}${endpoint}`;
 
-  const resposta = await fetch(url, {
+ const resposta = await fetch(url, {
     method: "GET",
+    credentials: "include",
     headers: {
-      Accept: "application/json",
+        Accept: "application/json",
     },
-  });
+});
 
   const resultado = await resposta.json();
 
@@ -67,3 +69,33 @@ export async function apiGet<T>(
 
   return resultado as T;
 }
+
+
+
+export async function apiPut<T>(
+    endpoint: string,
+    dados: unknown
+): Promise<T> {
+    const resposta = await fetch(`${API_URL}${endpoint}`, {
+        method: "PUT",
+        credentials: "include",
+        headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+        },
+        body: JSON.stringify(dados),
+    });
+
+    const resultado = await resposta.json();
+
+    if (!resposta.ok) {
+        throw new Error(
+            resultado.mensagem ||
+            resultado.message ||
+            "Erro ao comunicar com a API."
+        );
+    }
+
+    return resultado as T;
+}
+

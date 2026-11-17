@@ -13,6 +13,9 @@ import AdminLogin from "../pages/Ad/AdminLogin";
 import ProtectedAdminRoute from "./ProtectedAdminRoute";
 import AdminUsuarios from "../pages/Ad/AdminUsuarios";
 import AdminAgendamentos from "../pages/Ad/AdminAgendamentos";
+import AdminServicos from "../pages/Ad/AdminServicos";
+import AdminProfissionais from "../pages/Ad/AdminProfissionais";
+import AdminLayout from "../pages/layout/AdminLayout";
 export default function AppRoutes() {
   return (
     <BrowserRouter>
@@ -27,11 +30,16 @@ export default function AppRoutes() {
         <Route path="/horarios" element={<Horarios />}/>
         <Route path="/preenchimento-dados" element={<Clientes />}/>
         <Route  path="/meu-agendamento/:token" element={<Mgendamento />}/>
+        
         {/* admim */}
         <Route path="/admin/login" element={<AdminLogin />} />
          <Route element={<ProtectedAdminRoute />}>
+          <Route element={<AdminLayout />}>
           <Route path="/admin/usuarios" element={<AdminUsuarios />} />
           <Route path="/admin/agendamentos" element={<AdminAgendamentos />} />
+           <Route path="/admin/servicos" element={<AdminServicos />} />
+           <Route path="/admin/profissionais" element={<AdminProfissionais />} />
+        </Route>
       </Route>
         
       </Routes>

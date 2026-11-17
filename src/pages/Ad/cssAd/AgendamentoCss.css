@@ -1,0 +1,273 @@
+
+/* =====================================
+   TELA DE AGENDAMENTOS
+===================================== */
+
+.agenda-pagina {
+    width: 100%;
+    min-height: 100vh;
+    padding: 24px;
+    box-sizing: border-box;
+    color: #1e293b;
+    background: #f1f5f9;
+    font-family: Arial, sans-serif;
+}
+
+.agenda-cabecalho {
+    margin-bottom: 22px;
+}
+
+.agenda-cabecalho h1 {
+    margin: 0 0 8px;
+    font-size: 26px;
+    font-weight: 700;
+    color: #172554;
+}
+
+.agenda-cabecalho p {
+    margin: 0;
+    color: #64748b;
+    font-size: 14px;
+}
+
+/* =====================================
+   NAVEGAÇÃO
+===================================== */
+
+.agenda-navegacao {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 22px;
+}
+
+.agenda-btn {
+    min-height: 40px;
+    padding: 9px 16px;
+    border: 1px solid #cbd5e1;
+    border-radius: 7px;
+    background: #ffffff;
+    color: #334155;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.agenda-btn:hover {
+    background: #e2e8f0;
+}
+
+.agenda-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.agenda-btn-novo {
+    background: #15803d;
+    color: #ffffff;
+    border-color: #15803d;
+}
+
+.agenda-btn-novo:hover {
+    background: #166534;
+}
+
+/* =====================================
+   PERÍODO DA SEMANA
+===================================== */
+
+.agenda-titulo-semana {
+    margin: 0 0 15px;
+    font-size: 19px;
+    font-weight: 700;
+    color: #334155;
+    text-transform: capitalize;
+}
+
+/* =====================================
+   FILTROS
+===================================== */
+
+.agenda-filtros {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(160px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+    padding: 18px;
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
+}
+
+.agenda-filtro-campo {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.agenda-filtro-campo label {
+    color: #475569;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.agenda-filtro-campo input,
+.agenda-filtro-campo select {
+    width: 100%;
+    min-height: 40px;
+    padding: 9px 11px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    outline: none;
+    background: #ffffff;
+    color: #334155;
+    font-size: 13px;
+    box-sizing: border-box;
+}
+
+.agenda-filtro-campo input:focus,
+.agenda-filtro-campo select:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+
+/* CONTAINER DO CALENDÁRIO */
+.agenda-container-calendario {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+}
+
+/* CAMPOS DOS MODAIS */
+.agenda-campo-modal {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-top: 6px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.agenda-campo-modal:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.12);
+}
+
+.agenda-campo-modal:disabled {
+    background: #f1f5f9;
+    cursor: not-allowed;
+}
+/* FUNDO DOS MODAIS */
+.agenda-fundo-modal {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.55);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+/* CONTEÚDO DOS MODAIS */
+.agenda-modal {
+    background-color: #fff;
+    padding: 25px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+    color: #222;
+    box-sizing: border-box;
+}
+.estiloCabecalhoModal {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 20px;
+}
+
+.estiloFechar {
+    border: none;
+    background: transparent;
+    font-size: 28px;
+    cursor: pointer;
+};
+
+.estiloBotoesModal {
+    display: flex;
+    justify-Content: flex-end;
+    margin-top: 25px;
+
+};
+/* BLOCOS DE AGENDAMENTO */
+.agenda-agendamento {
+    position: absolute;
+    box-sizing: border-box;
+    padding: 5px;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    overflow: hidden;
+    font-size: 11px;
+    z-index: 1;
+    cursor: pointer;
+}
+
+.agenda-agendamento strong,
+.agenda-agendamento span,
+.agenda-agendamento small {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+/* =====================================
+   RESPONSIVIDADE
+===================================== */
+
+@media (max-width: 1000px) {
+    .agenda-filtros {
+        grid-template-columns: repeat(2, minmax(160px, 1fr));
+    }
+}
+
+@media (max-width: 600px) {
+    .agenda-pagina {
+        padding: 15px;
+    }
+
+    .agenda-cabecalho h1 {
+        font-size: 21px;
+    }
+
+    .agenda-navegacao {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .agenda-btn {
+        width: 100%;
+        padding: 9px 8px;
+    }
+
+    .agenda-filtros {
+        grid-template-columns: 1fr;
+        padding: 13px;
+    }
+      .agenda-modal {
+        padding: 18px;
+        max-height: 95vh;
+    }
+}

@@ -1,0 +1,274 @@
+
+/* ================================
+   LAYOUT ADMINISTRATIVO
+================================ */
+
+.admin-container {
+    min-height: 100vh;
+    background: #f1f5f9;
+}
+
+/* ================================
+   MENU LATERAL
+================================ */
+
+.admin-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 1000;
+
+    display: flex;
+    flex-direction: column;
+
+    background: #172554;
+    color: #ffffff;
+
+    overflow-x: hidden;
+    transition: width 0.25s ease, transform 0.25s ease;
+}
+
+.admin-sidebar.expandido {
+    width: 250px;
+}
+
+.admin-sidebar.recolhido {
+    width: 76px;
+}
+
+/* Cabeçalho */
+
+.admin-sidebar-header {
+    height: 70px;
+    min-height: 70px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+    padding: 0 10px;
+    border-bottom: 1px solid #334155;
+}
+
+.admin-logo {
+    font-size: 17px;
+    letter-spacing: 1px;
+    white-space: nowrap;
+}
+
+.admin-menu-toggle {
+    background: transparent;
+    border: none;
+    color: #ffffff;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+/* Navegação */
+
+.admin-navigation {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+
+    padding: 15px 10px;
+    gap: 7px;
+}
+
+.admin-link {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+
+    padding: 13px 12px;
+    border-radius: 7px;
+
+    color: #cbd5e1;
+    text-decoration: none;
+    font-size: 14px;
+    white-space: nowrap;
+
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.admin-link:hover {
+    background: #334155;
+    color: #ffffff;
+}
+
+.admin-link.ativo {
+    background: #334155;
+    color: #ffffff;
+}
+
+.admin-icon {
+    font-size: 19px;
+    min-width: 25px;
+    text-align: center;
+}
+
+/* Rodapé do menu */
+
+.admin-sidebar-footer {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    padding: 12px 10px;
+    border-top: 1px solid #334155;
+}
+
+.admin-link-footer {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+
+    padding: 12px;
+
+    color: #cbd5e1;
+    text-decoration: none;
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+.admin-link-footer:hover {
+    color: #ffffff;
+    background: #334155;
+}
+
+.admin-button-logout {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+
+    padding: 12px;
+
+    background: transparent;
+    border: none;
+
+    color: #fca5a5;
+    font-size: 14px;
+    text-align: left;
+    cursor: pointer;
+}
+
+.admin-button-logout:hover {
+    color: #ffffff;
+    background: #7f1d1d;
+    border-radius: 7px;
+}
+
+/* ================================
+   CONTEÚDO
+================================ */
+
+.admin-content {
+    min-height: 100vh;
+    transition: margin-left 0.25s ease;
+}
+
+.admin-content.menu-expandido {
+    margin-left: 250px;
+}
+
+.admin-content.menu-recolhido {
+    margin-left: 76px;
+}
+
+.admin-content-area {
+    padding: 24px;
+}
+
+/* ================================
+   SOBREPOSIÇÃO MOBILE
+================================ */
+
+.admin-overlay {
+    display: none;
+}
+
+/* Cabeçalho mobile */
+
+.admin-mobile-header {
+    display: none;
+}
+
+/* Ícones profissionais */
+.admin-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 25px;
+}
+
+/* Destaque da página selecionada */
+.admin-link.ativo {
+    background: #334e78;
+    color: #ffffff;
+    border-left: 4px solid #60a5fa;
+    padding-left: 8px;
+    font-weight: 600;
+}
+
+/* Transição dos links */
+.admin-link {
+    transition: all 0.2s ease;
+}
+
+/* ================================
+   RESPONSIVIDADE
+================================ */
+
+@media (max-width: 768px) {
+
+    .admin-sidebar {
+        width: 250px;
+        transform: translateX(-100%);
+    }
+
+    .admin-sidebar.mobile-aberto {
+        transform: translateX(0);
+    }
+
+    .admin-content,
+    .admin-content.menu-expandido,
+    .admin-content.menu-recolhido {
+        margin-left: 0;
+    }
+
+    .admin-mobile-header {
+        height: 60px;
+
+        display: flex;
+        align-items: center;
+        gap: 15px;
+
+        padding: 0 16px;
+
+        background: #172554;
+        color: #ffffff;
+    }
+
+    .admin-mobile-button {
+        background: transparent;
+        border: none;
+        color: #ffffff;
+        font-size: 25px;
+        cursor: pointer;
+    }
+
+    .admin-content-area {
+        padding: 15px;
+    }
+
+    .admin-overlay {
+        display: block;
+        position: fixed;
+        inset: 0;
+
+        background: rgba(0, 0, 0, 0.5);
+
+        z-index: 999;
+    }
+}

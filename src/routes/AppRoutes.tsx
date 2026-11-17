@@ -12,6 +12,7 @@ import Mgendamento from "../pages/ClienteAgendamentos";
 import AdminLogin from "../pages/Ad/AdminLogin";
 import ProtectedAdminRoute from "./ProtectedAdminRoute";
 import AdminUsuarios from "../pages/Ad/AdminUsuarios";
+import AdminAgendamentos from "../pages/Ad/AdminAgendamentos";
 export default function AppRoutes() {
   return (
     <BrowserRouter>
@@ -28,12 +29,10 @@ export default function AppRoutes() {
         <Route  path="/meu-agendamento/:token" element={<Mgendamento />}/>
         {/* admim */}
         <Route path="/admin/login" element={<AdminLogin />} />
-        <Route element={<ProtectedAdminRoute />}>
-         <Route path="/admin/usuarios" element={<div>Gerenciamento de usuários</div>} /></Route>
-         <Route
-    path="/admin/usuarios"
-    element={<AdminUsuarios />}
-/>
+         <Route element={<ProtectedAdminRoute />}>
+          <Route path="/admin/usuarios" element={<AdminUsuarios />} />
+          <Route path="/admin/agendamentos" element={<AdminAgendamentos />} />
+      </Route>
         
       </Routes>
     </BrowserRouter>

@@ -98,4 +98,29 @@ export async function apiPut<T>(
 
     return resultado as T;
 }
+export async function apiPatch<T>(
+    endpoint: string,
+    dados: unknown
+): Promise<T> {
+    const resposta = await fetch(`${API_URL}${endpoint}`, {
+        method: "PATCH",
+        credentials: "include",
+        headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+        },
+        body: JSON.stringify(dados),
+    });
 
+    const resultado = await resposta.json();
+
+    if (!resposta.ok) {
+        throw new Error(
+            resultado.mensagem ||
+            resultado.message ||
+            "Erro ao comunicar com a API."
+        );
+    }
+
+    return resultado as T;
+}

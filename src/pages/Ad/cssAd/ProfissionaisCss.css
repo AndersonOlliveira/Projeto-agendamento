@@ -1,0 +1,78 @@
+.estiloCelula {
+    padding: 12px;
+    border: 1px solid #521313;
+    text-align: left;
+}
+
+.estiloTabela {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.estiloBotao {
+    padding: 10px 18px;
+    margin-top: 15px;
+    cursor: pointer;
+}
+
+.estiloFundoModal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.55);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+.estiloCampo {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 15px;
+}
+
+.estiloInput {
+    padding: 10px;
+    border: 1px solid #7e2222;
+    border-radius: 4px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.estiloBotoes {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.btns {
+    min-height: 40px;
+    padding: 9px 16px;
+    border: 1px solid #cbd5e1;
+    border-radius: 7px;
+    background: #ffffff;
+    color: #334155;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.agenda-btn-novo {
+    
+    background: #15803d;
+    color: #ffffff;
+    border-color: #15803d;
+}
+
+.agenda-btn-novo:hover {
+    background: #166534;
+}

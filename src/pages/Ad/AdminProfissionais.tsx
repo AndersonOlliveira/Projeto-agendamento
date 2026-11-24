@@ -1,5 +1,6 @@
 
 import { useEffect, useState, type FormEvent, type CSSProperties } from "react";
+import './cssAd/ProfissionaisCss.css';
 
 import {
     apiGet,
@@ -437,7 +438,7 @@ function fecharConfiguracao() {
             <button
                 type="button"
                 onClick={abrirModal}
-                style={estiloBotao}
+                className="btns estiloBotao"
             >
                 + Novo profissional
             </button>
@@ -460,15 +461,15 @@ function fecharConfiguracao() {
 
                     <div style={{ overflowX: "auto" }}>
 
-                        <table style={estiloTabela}>
+                        <table  className="estiloTabela">
 
                             <thead>
 
                                 <tr>
-                                    <th style={estiloCelula}>ID</th>
-                                    <th style={estiloCelula}>Nome</th>
-                                    <th style={estiloCelula}>Status</th>
-                                    <th style={estiloCelula}>Ações</th>
+                                    <th className="estiloCelula">ID</th>
+                                    <th className="estiloCelula">Nome</th>
+                                    <th className="estiloCelula">Status</th>
+                                    <th className="estiloCelula">Ações</th>
                                 </tr>
 
                             </thead>
@@ -479,22 +480,23 @@ function fecharConfiguracao() {
 
                                     <tr key={profissional.id}>
 
-                                        <td style={estiloCelula}>
+                                        <td className="estiloCelula">
                                             {profissional.id}
                                         </td>
 
-                                        <td style={estiloCelula}>
+                                        <td className="estiloCelula">
                                             {profissional.nome}
                                         </td>
 
-                                        <td style={estiloCelula}>
+                                        <td className="estiloCelula">
                                             {profissional.ativo ? "Ativo" : "Inativo"}
                                         </td>
 
-                                        <td style={estiloCelula}>
+                                        <td className="estiloCelula">
 
                                             <button
                                                 type="button"
+                                                className="btns"
                                                 onClick={() => abrirEdicao(profissional)}
                                             >
                                                 Editar
@@ -504,12 +506,14 @@ function fecharConfiguracao() {
 
                                             <button
                                                 type="button"
+                                                  className="btns"
                                                 onClick={() => alterarStatusProfissional(profissional)}
                                             >
                                                 {profissional.ativo ? "Desativar" : "Ativar"}
                                             </button>
                                             <button
                                                 type="button"
+                                                className="btns"
                                                 onClick={() => abrirConfiguracao(profissional)}
                                             >
                                                 Configurar
@@ -527,7 +531,7 @@ function fecharConfiguracao() {
 
                                         <td
                                             colSpan={4}
-                                            style={estiloCelula}
+                                           className="estiloCelula"
                                         >
                                             Nenhum profissional cadastrado.
                                         </td>
@@ -543,7 +547,7 @@ function fecharConfiguracao() {
 
             {modalConfiguracao && (
 
-                <div style={estiloFundoModal}>
+                <div className="estiloFundoModal">
 
                     <div style={{
                         ...estiloModal,
@@ -667,7 +671,7 @@ function fecharConfiguracao() {
                                                                 e.target.value
                                                             )
                                                         }
-                                                        style={estiloInput}
+                                                       className="estiloInput"
                                                     />
 
                                                     <span>até</span>
@@ -682,11 +686,12 @@ function fecharConfiguracao() {
                                                                 e.target.value
                                                             )
                                                         }
-                                                        style={estiloInput}
+                                                        className="estiloInput"
                                                     />
 
                                                     <button
                                                         type="button"
+                                                        className="btns"
                                                         onClick={() => removerHorario(indice)}
                                                     >
                                                         Remover
@@ -700,6 +705,7 @@ function fecharConfiguracao() {
 
                                         <button
                                             type="button"
+                                            className="btns"
                                             onClick={() => adicionarHorario(dia.id)}
                                         >
                                             + Adicionar horário
@@ -721,10 +727,11 @@ function fecharConfiguracao() {
 
                         )}
 
-                        <div style={estiloBotoes}>
+                        <div className="estiloBotoes">
 
                             <button
                                 type="button"
+                                className="btns"
                                 onClick={fecharConfiguracao}
                                 disabled={salvandoConfiguracao}
                             >
@@ -733,6 +740,7 @@ function fecharConfiguracao() {
 
                             <button
                                 type="button"
+                                className="btns agenda-btn-novo"
                                 onClick={salvarConfiguracao}
                                 disabled={
                                     salvandoConfiguracao ||
@@ -762,7 +770,7 @@ function fecharConfiguracao() {
 
             {modalAberto && (
 
-                <div style={estiloFundoModal}>
+                <div className="estiloFundoModal">
 
                     <div style={estiloModal}>
 
@@ -774,7 +782,7 @@ function fecharConfiguracao() {
 
                         <form onSubmit={salvarProfissional}>
 
-                            <div style={estiloCampo}>
+                            <div className="estiloCampo">
 
                                 <label>Nome *</label>
 
@@ -784,7 +792,7 @@ function fecharConfiguracao() {
                                     onChange={(e) => setNome(e.target.value)}
                                     placeholder="Nome do profissional"
                                     required
-                                    style={estiloInput}
+                                     className="estiloInput"
                                 />
 
                             </div>
@@ -797,10 +805,11 @@ function fecharConfiguracao() {
 
                             )}
 
-                            <div style={estiloBotoes}>
+                            <div className="estiloBotoes">
 
                                 <button
                                     type="button"
+                                      className="btns"
                                     onClick={fecharModal}
                                     disabled={salvando}
                                 >
@@ -809,6 +818,7 @@ function fecharConfiguracao() {
 
                                 <button
                                     type="submit"
+                                      className="btns"
                                     disabled={salvando}
                                 >
                                     {salvando
@@ -833,39 +843,6 @@ function fecharConfiguracao() {
     );
 }
 
-const estiloCelula: CSSProperties = {
-    padding: "12px",
-    border: "1px solid #ddd",
-    textAlign: "left"
-};
-
-const estiloTabela: CSSProperties = {
-    width: "100%",
-    borderCollapse: "collapse",
-    marginTop: "20px"
-};
-
-const estiloBotao: CSSProperties = {
-    padding: "10px 18px",
-    marginTop: "15px",
-    cursor: "pointer"
-};
-
-const estiloFundoModal: CSSProperties = {
-    position: "fixed",
-    top: 0,
-    left: 0,
-    width: "100%",
-    height: "100%",
-    backgroundColor: "rgba(0,0,0,0.55)",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    zIndex: 1000,
-    padding: "15px",
-    boxSizing: "border-box"
-};
-
 const estiloModal: CSSProperties = {
     backgroundColor: "#fff",
     padding: "25px",
@@ -875,26 +852,4 @@ const estiloModal: CSSProperties = {
     maxHeight: "90vh",
     overflowY: "auto",
     color: "#222"
-};
-
-const estiloCampo: CSSProperties = {
-    display: "flex",
-    flexDirection: "column",
-    gap: "6px",
-    marginBottom: "15px"
-};
-
-const estiloInput: CSSProperties = {
-    padding: "10px",
-    border: "1px solid #ccc",
-    borderRadius: "4px",
-    width: "100%",
-    boxSizing: "border-box"
-};
-
-const estiloBotoes: CSSProperties = {
-    display: "flex",
-    justifyContent: "flex-end",
-    gap: "10px",
-    marginTop: "20px"
 };

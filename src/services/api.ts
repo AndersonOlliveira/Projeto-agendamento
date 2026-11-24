@@ -63,10 +63,11 @@ export async function apiGet<T>(
 
   if (!resposta.ok) {
     throw new Error(
-      resultado.message || "Erro ao comunicar com a API."
+        resultado.mensagem ||
+        resultado.message ||
+        "Erro ao comunicar com a API."
     );
-  }
-
+}
   return resultado as T;
 }
 

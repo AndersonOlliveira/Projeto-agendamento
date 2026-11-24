@@ -203,14 +203,14 @@
     background: transparent;
     font-size: 28px;
     cursor: pointer;
-};
+}
 
 .estiloBotoesModal {
     display: flex;
     justify-Content: flex-end;
     margin-top: 25px;
 
-};
+}
 /* BLOCOS DE AGENDAMENTO */
 .agenda-agendamento {
     position: absolute;

@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "./css/MeuAgendamento.css";
+const API_URL = import.meta.env.VITE_API_URL;
 
 interface Agendamento {
     id: number;
@@ -85,7 +86,7 @@ export default function Mgendamento() {
             try {
 
                 const resposta = await fetch(
-                    `http://localhost:9890/api/meu-agendamento/${encodeURIComponent(token)}`
+                    `${API_URL}/api/meu-agendamento/${encodeURIComponent(token)}`
                 );
 
                 const resultado: RespostaAPI = await resposta.json();
@@ -135,7 +136,7 @@ export default function Mgendamento() {
             });
 
             const resposta = await fetch(
-                `http://localhost:9890/api/disponibilidade?${parametros.toString()}`
+                `${API_URL}/api/disponibilidade?${parametros.toString()}`
             );
 
             const resultado: RespostaDisponibilidade =
@@ -181,7 +182,7 @@ const confirmarReagendamento = async () => {
         setMensagem("");
 
         const resposta = await fetch(
-            "http://localhost:9890/api/agendamentos/reagendar",
+            `${API_URL}/api/agendamentos/reagendar`,
             {
                 method: "POST",
                 headers: {
@@ -276,7 +277,7 @@ const confirmarReagendamento = async () => {
         setErro("");
 
         const resposta = await fetch(
-            "http://localhost:9890/api/agendamentos/cancelar",
+            `${API_URL}/agendamentos/cancelar`,
             {
                 method: "POST",
                 headers: {
